@@ -1,0 +1,6 @@
+<sitemesh>
+    <mapping path="/*" decorator="/WEB-INF/layouts/kk_layout.jsp"/>
+    <mapping path="/people/*" decorator="/WEB-INF/layouts/bootstrap_layout.jsp"/>
+    <mapping path="/admin/*" decorator="/WEB-INF/layouts/admin_layout.jsp"/>
+    <mapping path="/token/*" exclue="true"/>
+</sitemesh>
