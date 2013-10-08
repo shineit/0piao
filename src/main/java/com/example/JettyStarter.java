@@ -29,7 +29,7 @@ package com.example;
             //webAppContext.setDescriptor("G:/sources/bae/mvc/src/main/webapp/WEB-INF/web.xml");
             //webAppContext.setResourceBase("G:/sources/bae/mvc/src/main/webapp");
             //webAppContext.setDisplayName("myProject");
-            webAppContext.setResourceBase("G:\\sources\\bae\\0piao\\src\\main\\webapp\\");//webAppContext.setWar("G:/sources/bae/mvc/src/main/webapp");
+            webAppContext.setResourceBase("e:\\sources\\bae\\0piao\\src\\main\\webapp\\");//webAppContext.setWar("G:/sources/bae/mvc/src/main/webapp");
             webAppContext.setContextPath("/");
             webAppContext.setServer(server);
             server.setHandler(webAppContext);

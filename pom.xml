@@ -319,6 +319,7 @@
                 			<goal>baedeploy</goal>
                 		</goals>
                 		<configuration>
+                            <!--  true 可以修改用户名和密码-->
                 			<changepass>false</changepass>
                 			<appid>appidfaven9wfyc</appid>
                 			<version>1</version>     			

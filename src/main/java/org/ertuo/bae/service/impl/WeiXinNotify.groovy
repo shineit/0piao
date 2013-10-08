@@ -5,6 +5,7 @@ import org.ertuo.bae.domain.MsgType
 import org.ertuo.bae.service.NotifyService
 
 import java.util.logging.Level
+import java.util.logging.Logger
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,6 +15,10 @@ import java.util.logging.Level
  * To change this template use File | Settings | File Templates.
  */
 class WeiXinNotify implements NotifyService{
+
+    Logger logger = Logger.getLogger(this.class.name);
+
+
     @Override
     boolean outNotify( msg) {
         return false  //To change body of implemented methods use File | Settings | File Templates.
@@ -21,12 +26,16 @@ class WeiXinNotify implements NotifyService{
 
     @Override
     String inNotify( msg) {
+        logger.log(Level.INFO,"msgType ${msg.MsgType.text()}");
+
         //文本消息处理
-        if(MsgType.TEXT.toLowerCase().equals(msg.MsgType.text())){
-             return inTextMsg(msg);
+        if(MsgType.TEXT.equals(msg.MsgType.text())){
+             return inTextMsg(msg,"哥不懂你在说什么!");
         }
         //订阅和自定义按键
-        else if(MsgType.EVENT.toLowerCase().equals(msg.MsgType.text())){
+        else if(MsgType.EVENT.equals(msg.MsgType.text())){
+
+            return inEvent(msg);
 
         }
         //其他事件转发
@@ -42,7 +51,7 @@ class WeiXinNotify implements NotifyService{
      * @param inMsg
      * @return
      */
-    private String inTextMsg( inMsg){
+    private String inTextMsg( inMsg,context){
         //返回消息
         def writer = new StringWriter()
         def msg = new groovy.xml.MarkupBuilder(writer)
@@ -50,8 +59,8 @@ class WeiXinNotify implements NotifyService{
             ToUserName(inMsg.FromUserName.text())
             FromUserName(inMsg.ToUserName.text())
             CreateTime(new Date().getTime())
-            MsgType(MsgType.TEXT.toLowerCase())
-            Content("hello")
+            MsgType(MsgType.TEXT)
+            Content(context)
         }
        return  writer.toString();
 
@@ -63,7 +72,14 @@ class WeiXinNotify implements NotifyService{
      * @return
      */
     private String inEvent(Message inMsg){
+        logger.log(Level.INFO,"eventType ${inMsg.Event.text()}");
 
+        if(MsgType.UNSUBSCRIBE.equals(inMsg.Event.text())){
+            return inTextMsg(inMsg,"慢走,欢迎下次光临!");
+        }
+        if(MsgType.SUBSCRIBE.equals(inMsg.Event.text())){
+            return inTextMsg(inMsg,"订阅有惊喜!");
+        }
 
     }
 

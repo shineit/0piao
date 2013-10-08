@@ -8,5 +8,5 @@ package org.ertuo.bae.domain
  * To change this template use File | Settings | File Templates.
  */
 class MsgType {
-    final static String TEXT,LINK,IMAGE,EVENT,LOCATION
+    final static String TEXT="text",LINK="link",IMAGE="image",EVENT="event",LOCATION="location",SUBSCRIBE="subscribe" ,UNSUBSCRIBE="unsubscribe"
 }
