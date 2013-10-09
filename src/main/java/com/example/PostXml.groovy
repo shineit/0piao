@@ -21,8 +21,8 @@ class PostXml {
             ToUserName("Java")
             FromUserName("Groovy")
             CreateTime("JavaScript")
-            MsgType("JavaScript")
-            Content("JavaScript")
+            MsgType("event")
+            Event("subscribe")
             MsgId("JavaScript")
         }
         println writer.toString()
@@ -30,8 +30,8 @@ class PostXml {
 
         byte[] xmlData = writer.toString().getBytes();
 
-        //String urlStr = "http://127.0.0.1:8080/token/";
-        String urlStr = "http://1.linpiao.duapp.com/token/";
+        String urlStr = "http://127.0.0.1:8080/token/";
+        //String urlStr = "http://1.linpiao.duapp.com/token/";
 
         DataInputStream input = null;
 

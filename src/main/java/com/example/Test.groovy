@@ -9,4 +9,11 @@ package com.example
  */
     def a="/storage/sdcard0/bluetooth/SCR00002-4-2.jpg"
     println (a.substring(a.lastIndexOf("/")+1 ) )
+    def aa=[]
+    println(aa[0])
+if(aa[0]){
+    println "not null"
+}else{
+    println "null"
+}
 

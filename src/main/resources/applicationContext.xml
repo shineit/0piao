@@ -14,8 +14,36 @@
                            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <context:annotation-config />
-    <context:component-scan base-package="com.example" />
+
     <context:component-scan base-package="org.ertuo.bae" />
+
+    <context:property-placeholder location="classpath*:db.properties" />
+
+    <!-- Json返回 乱码处理 -->
+    <bean  class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean
+                        class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+                <bean
+                        class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/plain;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean
+                        class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+                <bean
+                        class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+                <bean
+                        class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
+                <bean
+                        class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
 
     <mvc:annotation-driven/>
     <mvc:resources mapping="/resources/**" location="/resources/" />
@@ -28,22 +56,30 @@
         <property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
 
-    <!--
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url"
                   value="jdbc:mysql://192.168.1.101:3306/ertuodb?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" />
         <property name="username" value="root" />
         <property name="password" value="keyidaxie" />
-    </bean>  -->
+    </bean>-->
 
-    <!-- 数据库连接池  用户名密码为应用的API Key，Secret Key   -->
+    <!-- 数据库连接池  用户名密码为应用的API Key，Secret Key
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url"
                   value="jdbc:mysql://sqld.duapp.com:4050/LMteuRUWkgfyFZzwKTEX?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;zeroDateTimeBehavior=convertToNull&amp;transformedBitIsBoolean=true" />
         <property name="username" value="NyKnvR0mDLjwD9sf5vHIQE80" />
         <property name="password" value="mnCWZDiky2uWmDb1VTheLMCx6sgb8ZDj" />
+    </bean>
+    -->
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url"  value="${db.master.url}" />
+        <property name="username" value="${db.master.user}" />
+        <property name="password" value="${db.master.password}" />
     </bean>
 
     <!-- hibernate sessionFactory 创建 -->
@@ -59,7 +95,7 @@
             <props>
                 <prop key="hibernate.format_sql">true</prop>
                 <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
             </props>
         </property>
@@ -78,15 +114,16 @@
             <tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="remove*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
         </tx:attributes>
     </tx:advice>
     <aop:config>
-        <aop:pointcut expression="execution(public * org.ertuo.bae.service..*.*(..))"
+        <aop:pointcut expression="execution(public * org.ertuo.bae.dao..*.*(..))"
                       id="myPointcut" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="myPointcut" />
     </aop:config>
 
-    <tx:annotation-driven />
+    <tx:annotation-driven proxy-target-class="true"/>
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter">
@@ -169,6 +206,6 @@
                </props>
            </property>
        </bean>
-   </beans> -->
-   <import resource="services.xml"/>
+   </beans>-->
+
 </beans>

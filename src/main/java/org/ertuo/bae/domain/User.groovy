@@ -1,5 +1,6 @@
 package org.ertuo.bae.domain
 
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
@@ -16,6 +17,8 @@ class User {
     @Id
     @GeneratedValue
     Integer id;
-    String userName,pass,weiXin,phoneNo,inCome,openId
-    Date clearCycle,gmtCreate,gmtModify
+    @Column(unique = true, nullable = false, length=50)
+    String userName;
+    String pass,weiXin,phoneNo,inCome,openId,statu
+    Date gmtCreate,gmtModify
 }
