@@ -77,9 +77,9 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url"  value="${db.master.url}" />
-        <property name="username" value="${db.master.user}" />
-        <property name="password" value="${db.master.password}" />
+        <property name="url"  value="${db_master_url}" />
+        <property name="username" value="${db_master_user}" />
+        <property name="password" value="${db_master_password}" />
     </bean>
 
     <!-- hibernate sessionFactory 创建 -->

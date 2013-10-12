@@ -1,5 +1,9 @@
 package com.example
 
+import groovy.text.GStringTemplateEngine
+import groovy.text.SimpleTemplateEngine
+import groovy.text.Template
+
 /**
  * Created with IntelliJ IDEA.
  * User: mo.duanm
@@ -16,4 +20,6 @@ if(aa[0]){
 }else{
     println "null"
 }
+Properties props = new Properties()
+File propsFile = new File('..\\..\\..\\resources\\filters\\filter-dev.properties')
 
