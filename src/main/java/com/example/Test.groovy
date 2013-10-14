@@ -20,6 +20,6 @@ if(aa[0]){
 }else{
     println "null"
 }
-Properties props = new Properties()
-File propsFile = new File('..\\..\\..\\resources\\filters\\filter-dev.properties')
-
+def b="1#345789"
+assert b=~/\d\#\d{6}/
+println b.split("#")[0]

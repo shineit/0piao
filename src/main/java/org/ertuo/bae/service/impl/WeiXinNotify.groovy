@@ -22,6 +22,13 @@ import java.util.logging.Logger
 @Service
 class WeiXinNotify implements NotifyService{
 
+    def static final WELECOME_MSG="""
+请输入“1位操作码+#+6位验证码”，例如:\t
+查询：1#204567 \t
+退款：2#908765 \t
+目前只支持查询和退款。
+        """
+
 
 
     private UserDao userDao;
@@ -44,7 +51,8 @@ class WeiXinNotify implements NotifyService{
 
         //文本消息处理
         if(MsgType.TEXT.equals(msg.MsgType.text())){
-             return inTextMsg(msg,"哥不懂你在说什么!");
+            return analyzeTextMsg(msg)
+             //return inTextMsg(msg,WELECOME_MSG);
         }
         //订阅和自定义按键
         else if(MsgType.EVENT.equals(msg.MsgType.text())){
@@ -59,8 +67,26 @@ class WeiXinNotify implements NotifyService{
 
 
     }
-
     /**
+     *分析f
+     * @param p
+     */
+    def analyzeTextMsg(msg) {
+        def p=msg.Content.text()
+       if(p==~/\d\#\d{6}/){
+           def option=p.split(MsgType.SPLIT_SYABLE)[0]
+           def code=p.split(MsgType.SPLIT_SYABLE)[1]
+           if(MsgType.QUERY==option){
+               return inTextMsg(msg,"$code 查询成功。");
+           }
+           if(MsgType.DELETE==option){
+               return inTextMsg(msg,"$code 退款成功。");
+           }
+       }else{
+           return inTextMsg(msg,"格式错误，请输入正确的格式。 \t $WELECOME_MSG ");
+       }
+    }
+/**
      *文字消息处理
      * @param inMsg
      * @return
@@ -90,7 +116,7 @@ class WeiXinNotify implements NotifyService{
 
         if(MsgType.UNSUBSCRIBE.equals(inMsg.Event.text())){
 
-            return inTextMsg(inMsg,"慢走,欢迎下次光临!");
+            return inTextMsg(inMsg,WELECOME_MSG);
         }
         if(MsgType.SUBSCRIBE.equals(inMsg.Event.text())){
             def user=userDao.getByOpenId(inMsg.FromUserName.text())
@@ -101,7 +127,7 @@ class WeiXinNotify implements NotifyService{
 
             }
             userDao.saveOrUpdate(user);
-            return inTextMsg(inMsg,"${inMsg.FromUserName.text()} 订阅有惊喜!");
+            return inTextMsg(inMsg,WELECOME_MSG);
         }
 
     }
