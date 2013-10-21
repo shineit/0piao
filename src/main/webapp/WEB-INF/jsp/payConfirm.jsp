@@ -118,11 +118,21 @@
                     <strong>团购成功后，团购券序列号将发送到&nbsp;<span class="num" id="binded_num">186****2748 </span></strong> <a href="javascript:" id="J_edit-phone">[修改]</a>
                     </div>
                     <div class="field" ><a href="/detail/">返回重新下单</a></div>
-                    <div class="pay_confirm"><a href="#"><span class="title">提交</span></a></div>
-                    <div style="margin-top: 40px"></div>
+                    <div class="pay_confirm"><a href="#"><span class="title">支付</span></a></div>
+                <div style="margin-top: 40px"></div>
                 </div>
             </div>
 
         </div>
-
+        <form action="${action}" method="get" id="payConfirmForm">
+            <c:forEach items="${sParaTemp}" var="mymap" >
+                <input type='hidden' name='<c:out value="${mymap.key}" />' value='<c:out value="${mymap.value}" />'>
+            </c:forEach>
+        </form>
 </div>
+<script>
+    //SM6.Share.init('moonfruit');
+    $(".pay_confirm").click(function(){
+        $('#payConfirmForm').submit();
+    });
+</script>

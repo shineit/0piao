@@ -1,4 +1,8 @@
 import groovyx.net.http.HTTPBuilder
+import org.ertuo.bae.pay.alipay.config.AlipayConfig
+import org.ertuo.bae.pay.alipay.sign.MD5
+import org.ertuo.bae.pay.alipay.util.AlipaySubmit
+
 import static groovyx.net.http.ContentType.URLENC
 
 /**
@@ -52,6 +56,26 @@ class WxTest extends GroovyTestCase {
         }
     }
 
+    void testKonggeTextMsg() {
+        def writer = new StringWriter()
+        def msg = new groovy.xml.MarkupBuilder(writer)
+        msg.xml{
+            ToUserName("Java")
+            FromUserName("Groovy")
+            CreateTime("JavaScript")
+            MsgType("text")
+            Content("1#889 98")
+            MsgId("JavaScript")
+        }
+        // println writer.toString()
+        def http = new HTTPBuilder( urlStr )
+        http.post(  body:  writer.toString(),
+                requestContentType: URLENC ) { resp ,reader->
+            assert resp.statusLine.statusCode == 200
+            System.out << reader
+        }
+    }
+
     void testSubcribe() {
         def writer = new StringWriter()
         def msg = new groovy.xml.MarkupBuilder(writer)
@@ -71,4 +95,20 @@ class WxTest extends GroovyTestCase {
         }
 
     }
+
+
+    void testLoginSign(){
+
+        Map<String, String> sParaTemp = new HashMap<String, String>();
+        sParaTemp.put("target_service", "user.auth.quick.login");
+        sParaTemp.put("service", "alipay.auth.authorize");
+        sParaTemp.put("partner", AlipayConfig.partner);
+        sParaTemp.put("_input_charset", AlipayConfig.input_charset);
+        sParaTemp.put("return_url", AlipayConfig.return_url);
+
+
+
+        println "\t"+AlipaySubmit.buildRequestMysign(sParaTemp)
+    }
+
 }

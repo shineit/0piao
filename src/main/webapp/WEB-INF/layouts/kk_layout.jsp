@@ -418,6 +418,13 @@
         left: 19px;
         height: 18px;
     }
+    #login_popup .box .area .alipay_login a{
+        position: absolute;
+        top: 290px;
+        height: 18px;
+        left: 209px;
+        background-image:url('<c:url value="/resources/images/btn_Alipay.jpg"/>') ;
+    }
     #login_popup .box .area .remember_me a .check_on {
         width: 18px;
         height: 18px;
@@ -1088,6 +1095,17 @@
 
             </div>
 
+            <form id="alipayLoginForm" action="http://mapi.alipay.net/gateway.do?_input_charset=utf-8" method="get">
+                <input type="hidden" name="_input_charset" value="utf-8" />
+                <input type="hidden" name="partner" value="2088102124961741" />
+                <input type="hidden" id="return_url" name="return_url" value="http://1.linpiao.duapp.com/alipayRs/" />
+                <input type="hidden" name="service" value="alipay.auth.authorize" />
+                <input type="hidden" name="target_service" value="user.auth.quick.login" />
+
+
+                <input type="hidden" name="sign_type" value="MD5" />
+                <input type="hidden" name="sign" value="44a79f1f3629febe0b3ef9b9f739f2f1" />
+            </form>
             <!-- 登陆pop页面-->
             <div id="login_popup" class="hidden_at_start" style="display: none;">
                 <div class="safe_area">
@@ -1100,11 +1118,19 @@
                             <p class="message username hidden_at_start"><span class="legend">message</span></p>
                             <p class="message password hidden_at_start"><span class="legend">message</span></p>
                             <p class="forgotten_password"><a id="forgotten_pass" href="#">忘记密码?</a></p>
-                            <p class="remember_me"><a href="#"><span class="check_on hidden_at_start"></span><span class="check_off"></span><span class="legend">记住我</span></a></p>
-                            <span class="divider"></span>
+                            <p class="remember_me">
+                                <a href="#"><span class="check_on hidden_at_start"></span><span class="check_off"></span><span class="legend">记住我</span></a>
+                            </p>
+                            <p class="alipay_login">
+                                <a id="alipay_login_btn" href="#">登陆</a>
+                            </p>
+
                             <p class="submit login regular_text"><a href="#"><span class="title">登陆</span></a></p>
                             <p class="signup regular_text"><a id="open_register" href="#"><span class="title">注册</span></a></p>
                             <p class="close_button"><a id="close_login" href="#"><span class="placeholder_text">关闭</span></a></p>
+                        </div>
+                        <div class="mod_login_other">
+
                         </div>
                     </div>
                 </div>
@@ -1256,6 +1282,12 @@
          $("#forgotten_popup").attr("style","display:block");
      });
 
+    $("#alipay_login_btn").click(function(){
+        $('#return_url')
+         $("#alipayLoginForm").submit();
+     });
+
+
 </script>
 <script src="<c:url value='/resources/js/jquery.fancybox.pack.js'/>"></script>
 <script src="<c:url value='/resources/js/jquery.fancybox-init.js'/>"></script>
@@ -1276,6 +1308,7 @@
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(ga, s);
     })();
+
 </script>
 </body></html>
 
